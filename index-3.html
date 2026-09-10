@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BANABA eFootball League</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#07111f;color:#fff}
+header{background:linear-gradient(135deg,#0b1d33,#103b63);padding:28px 18px;text-align:center;border-bottom:3px solid #19d3ff}
+.logo{font-size:30px;font-weight:900;letter-spacing:1px}.tag{color:#9bdfff;margin-top:6px}
+nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:14px;background:#091827;position:sticky;top:0;z-index:5}
+nav button{border:1px solid #1e4567;background:#102b44;color:#fff;padding:10px 15px;border-radius:20px;cursor:pointer}
+nav button.active,nav button:hover{background:#19bfe8;color:#04101b}
+main{max-width:1050px;margin:auto;padding:22px}
+.hero{background:linear-gradient(135deg,#102c49,#0b1828);border:1px solid #1c4e75;border-radius:20px;padding:25px;margin-bottom:20px}
+.hero h1{font-size:clamp(30px,6vw,52px);margin:0 0 8px}.hero p{color:#b8d4e8}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.card{background:#0d2034;border:1px solid #173d5b;border-radius:16px;padding:18px;text-align:center}.num{font-size:30px;font-weight:900;color:#19d3ff}
+section{display:none}.show{display:block}.panel{background:#0b1a2a;border:1px solid #173b58;border-radius:16px;padding:18px;margin-top:16px;overflow:auto}
+h2{margin-top:0;color:#7de5ff}table{width:100%;border-collapse:collapse;min-width:650px}th,td{padding:11px 9px;border-bottom:1px solid #18364e;text-align:center}th{color:#8edff8;background:#102a42}td:first-child,th:first-child{text-align:left}
+.badge{display:inline-block;background:#12344e;border-radius:10px;padding:4px 7px;font-size:12px}.win{color:#67ef9a}.draw{color:#ffd166}.loss{color:#ff758f}
+.match{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px;border-bottom:1px solid #18364e}.team{flex:1}.score{font-weight:900;font-size:20px;color:#fff}.right{text-align:right}
+footer{text-align:center;padding:30px;color:#7794aa;font-size:13px}.note{color:#8da7b9;font-size:13px;line-height:1.5}.qualified{background:rgba(25,211,255,.055)}
+@media(max-width:600px){main{padding:13px}.hero{padding:20px}.match{font-size:14px}.logo{font-size:24px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">⚽ BANABA eFOOTBALL LEAGUE</div>
+  <div class="tag">Official League Hub • Prepared by BANABA DES</div>
+</header>
+
+<nav>
+  <button class="active" onclick="showTab('home',this)">Home</button>
+  <button onclick="showTab('table',this)">League Table</button>
+  <button onclick="showTab('fixtures',this)">Fixtures</button>
+  <button onclick="showTab('results',this)">Results</button>
+  <button onclick="showTab('teams',this)">Teams</button>
+  <button onclick="showTab('rules',this)">Rules</button>
+</nav>
+
+<main>
+<section id="home" class="show">
+  <div class="hero">
+    <h1>THE ROAD TO GLORY 🏆</h1>
+    <p>Karibu kwenye kituo rasmi cha BANABA eFootball League. Toleo hili lina standings baada ya Fixture 7, results zilizothibitishwa, na ratiba za Fixture 8 & 9.</p>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="num">18</div><div>Teams</div></div>
+    <div class="card"><div class="num">153</div><div>Total Matches</div></div>
+    <div class="card"><div class="num">7</div><div>Rounds Complete</div></div>
+    <div class="card"><div class="num">TOP 8</div><div>Final Stage</div></div>
+  </div>
+  <div class="panel"><h2>🔥 League Status</h2><p>Fixture 1–7 zimewekewa results. <b>Fixture 8 na 9</b> ndizo zinazofuata.</p><p class="note">Standings: Points → Goal Difference → Goals For → Head-to-Head → Admin decision.</p></div>
+</section>
+
+<section id="table">
+  <div class="panel"><h2>📊 League Table — After Fixture 7</h2>
+  <p class="note">🔵 Teams 1–8 ziko kwenye nafasi za qualifying kwa hatua ya mwisho.</p>
+  <table><thead><tr><th>#</th><th>Team</th><th>MP</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th></tr></thead>
+  <tbody id="tableBody"></tbody></table>
+</div>
+<div class="panel"><h2>🧱 Best Defence</h2><p>TONYO FC — 6 GA • FINE_BOY96 — 8 GA • MR RIGHT — 9 GA • BANABA DES & KONAMI ASSASIN — 11 GA</p></div>
+<div class="panel"><h2>🔥 Best Attack</h2><p>REST IN PEACE — 26 GF • PARASITE 42 — 26 GF • TONYO FC, ULUMA SIO MALEZI & IT'S TAUN — 16 GF</p></div>
+</section>
+
+<section id="fixtures">
+<div class="panel"><h2>📅 Upcoming Fixtures — 8 & 9</h2>
+<p class="note">Mechi 18 zinazofuata kwenye league stage.</p>
+<div id="fixturesList"></div>
+</div></section>
+
+<section id="results">
+<div class="panel"><h2>🥅 Confirmed Results — Fixture 1–7</h2>
+<p class="note">Jumla: 63 matches zilizorekodiwa kwenye hatua ya sasa.</p>
+<div id="resultsList"></div></div></section>
+
+<section id="teams">
+<div class="panel"><h2>👥 Registered Teams — 18</h2><div id="teamList" class="cards"></div></div>
+</section>
+
+<section id="rules">
+<div class="panel"><h2>📜 League Rules</h2>
+<ol>
+<li>Kila team inacheza na kila team mara moja kwenye league stage.</li>
+<li>Mechi ni dakika 10.</li>
+<li>League stage haina extra time wala penalty.</li>
+<li>Points: Win 3, Draw 1, Loss 0.</li>
+<li>Standings: Points → GD → GF → Head-to-Head → Admin decision.</li>
+<li>Players wakubaliane muda wa mechi na mechi ichezwe ndani ya siku/deadline iliyowekwa.</li>
+<li>Result itumwe kwa Admin pamoja na screenshot ya full-time inayoonyesha teams na score.</li>
+<li>Top 8 zinaingia knockout; 9–18 zinaondolewa.</li>
+<li>Heshimu mpinzani; hakuna matusi au ugomvi.</li>
+<li>Uamuzi wa Admin kuhusu migogoro ya mechi ndio wa mwisho.</li>
+</ol>
+</div></section>
+</main>
+
+<footer>© 2026 BANABA eFootball League • Prepared by BANABA DES</footer>
+
+<script>
+const teams=[
+"LEGEND 374","CHARZLEYDIRECTO","KONAMI ASSASIN","PARASITE 42","IT'S TAUN","BANABA DES","TONYO FC","MR RIGHT",
+"NAKUSUUZA CHAP","VICTIM OF SHAME","STANGAZI DE CORAZON","ULUMA SIO MALEZI","WISMAN LOVENING","LAZIMA UKAE_XU",
+"KITUNDU45","PRESIDENT","FINE_BOY96","REST IN PEACE"
+];
+
+// Confirmed results through Fixture 7.
+const matches=[
+["R1","LEGEND 374",0,4,"REST IN PEACE"],["R1","PARASITE 42",5,1,"KITUNDU45"],["R1","IT'S TAUN",2,1,"LAZIMA UKAE_XU"],["R1","MR RIGHT",2,3,"STANGAZI DE CORAZON"],["R1","TONYO FC",2,1,"ULUMA SIO MALEZI"],["R1","BANABA DES",4,1,"WISMAN LOVENING"],["R1","NAKUSUUZA CHAP",3,0,"VICTIM OF SHAME"],["R1","FINE_BOY96",3,0,"CHARZLEYDIRECTO"],["R1","KONAMI ASSASIN",1,0,"PRESIDENT"],
+["R2","LEGEND 374",0,1,"FINE_BOY96"],["R2","REST IN PEACE",5,1,"PRESIDENT"],["R2","CHARZLEYDIRECTO",2,2,"KITUNDU45"],["R2","KONAMI ASSASIN",3,0,"LAZIMA UKAE_XU"],["R2","PARASITE 42",7,1,"WISMAN LOVENING"],["R2","IT'S TAUN",0,2,"ULUMA SIO MALEZI"],["R2","BANABA DES",2,0,"STANGAZI DE CORAZON"],["R2","TONYO FC",2,2,"VICTIM OF SHAME"],["R2","MR RIGHT",7,1,"NAKUSUUZA CHAP"],
+["R3","LEGEND 374",2,2,"PRESIDENT"],["R3","FINE_BOY96",2,0,"KITUNDU45"],["R3","REST IN PEACE",1,3,"LAZIMA UKAE_XU"],["R3","CHARZLEYDIRECTO",2,2,"WISMAN LOVENING"],["R3","KONAMI ASSASIN",1,1,"ULUMA SIO MALEZI"],["R3","PARASITE 42",2,0,"STANGAZI DE CORAZON"],["R3","IT'S TAUN",0,2,"VICTIM OF SHAME"],["R3","BANABA DES",1,0,"NAKUSUUZA CHAP"],["R3","TONYO FC",3,0,"MR RIGHT"],
+["R4","LEGEND 374",0,2,"KITUNDU45"],["R4","PRESIDENT",0,4,"LAZIMA UKAE_XU"],["R4","FINE_BOY96",2,2,"WISMAN LOVENING"],["R4","REST IN PEACE",6,3,"ULUMA SIO MALEZI"],["R4","CHARZLEYDIRECTO",2,2,"STANGAZI DE CORAZON"],["R4","KONAMI ASSASIN",3,3,"VICTIM OF SHAME"],["R4","PARASITE 42",8,1,"NAKUSUUZA CHAP"],["R4","IT'S TAUN",0,2,"MR RIGHT"],["R4","BANABA DES",3,1,"TONYO FC"],
+["R5","LEGEND 374",0,2,"LAZIMA UKAE_XU"],["R5","KITUNDU45",2,2,"WISMAN LOVENING"],["R5","PRESIDENT",0,2,"ULUMA SIO MALEZI"],["R5","FINE_BOY96",2,2,"STANGAZI DE CORAZON"],["R5","REST IN PEACE",3,2,"VICTIM OF SHAME"],["R5","CHARZLEYDIRECTO",0,2,"NAKUSUUZA CHAP"],["R5","KONAMI ASSASIN",2,4,"MR RIGHT"],["R5","PARASITE 42",0,4,"TONYO FC"],["R5","IT'S TAUN",0,2,"BANABA DES"],
+["R6","KONAMI ASSASIN",2,1,"BANABA DES"],["R6","KONAMI ASSASIN",3,2,"PARASITE 42"],["R6","IT'S TAUN",5,2,"PARASITE 42"],["R6","REST IN PEACE",7,2,"BANABA DES"],["R6","IT'S TAUN",9,0,"CHARZLEYDIRECTO"],["R6","LEGEND 374",2,0,"WISMAN LOVENING"],["R6","REST IN PEACE",0,3,"MR RIGHT"],["R6","ULUMA SIO MALEZI",4,2,"LEGEND 374"],["R6","ULUMA SIO MALEZI",3,1,"LAZIMA UKAE_XU"],
+["R7","STANGAZI DE CORAZON",2,2,"KITUNDU45"],["R7","MR RIGHT",2,0,"PRESIDENT"],["R7","NAKUSUUZA CHAP",3,5,"KITUNDU45"],["R7","TONYO FC",2,0,"FINE_BOY96"],["R7","TONYO FC",2,0,"CHARZLEYDIRECTO"],["R7","LAZIMA UKAE_XU",2,2,"VICTIM OF SHAME"],["R7","FINE_BOY96",0,2,"NAKUSUUZA CHAP"],["R7","PRESIDENT",2,2,"VICTIM OF SHAME"],["R7","WISMAN LOVENING",0,2,"STANGAZI DE CORAZON"]
+];
+
+const upcoming={
+"Fixture 8":[["LEGEND 374","STANGAZI DE CORAZON"],["ULUMA SIO MALEZI","VICTIM OF SHAME"],["WISMAN LOVENING","NAKUSUUZA CHAP"],["LAZIMA UKAE_XU","MR RIGHT"],["KITUNDU45","TONYO FC"],["PRESIDENT","BANABA DES"],["FINE_BOY96","IT'S TAUN"],["REST IN PEACE","PARASITE 42"],["CHARZLEYDIRECTO","KONAMI ASSASIN"]],
+"Fixture 9":[["LEGEND 374","VICTIM OF SHAME"],["STANGAZI DE CORAZON","NAKUSUUZA CHAP"],["ULUMA SIO MALEZI","MR RIGHT"],["WISMAN LOVENING","TONYO FC"],["LAZIMA UKAE_XU","BANABA DES"],["KITUNDU45","IT'S TAUN"],["PRESIDENT","PARASITE 42"],["FINE_BOY96","KONAMI ASSASIN"],["REST IN PEACE","CHARZLEYDIRECTO"]]
+};
+
+const currentTable=[
+[1,"TONYO FC",7,5,1,1,16,6,10,16],[2,"REST IN PEACE",7,5,0,2,26,14,12,15],[3,"MR RIGHT",7,5,0,2,20,9,11,15],[4,"BANABA DES",7,5,0,2,15,11,4,15],[5,"KONAMI ASSASIN",7,4,2,1,15,11,4,14],[6,"ULUMA SIO MALEZI",7,4,1,2,16,12,4,13],[7,"PARASITE 42",7,4,0,3,26,15,11,12],[8,"FINE_BOY96",7,3,2,2,10,8,2,11],[9,"LAZIMA UKAE_XU",7,3,1,3,13,11,2,10],[10,"IT'S TAUN",7,3,0,4,16,11,5,9],[11,"STANGAZI DE CORAZON",7,2,3,2,11,12,-1,9],[12,"KITUNDU45",7,2,3,2,14,16,-2,9],[13,"NAKUSUUZA CHAP",7,3,0,4,12,21,-9,9],[14,"VICTIM OF SHAME",7,1,4,2,13,15,-2,7],[15,"LEGEND 374",7,1,1,5,6,15,-9,4],[16,"WISMAN LOVENING",7,0,3,4,8,21,-13,3],[17,"CHARZLEYDIRECTO",7,0,3,4,6,22,-16,3],[18,"PRESIDENT",7,0,2,5,5,18,-13,2]
+];
+document.getElementById("tableBody").innerHTML=currentTable.map(r=>`<tr class="${r[0]<=8?'qualified':''}"><td>${r[0]}</td><td><b>${r[1]}</b></td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td><td>${r[6]}</td><td>${r[7]}</td><td>${r[8]>0?'+':''}${r[8]}</td><td><b>${r[9]}</b></td></tr>`).join("");
+
+document.getElementById("resultsList").innerHTML=matches.slice().reverse().map(m=>`<div class="match"><span class="badge">${m[0]}</span><div class="team">${m[1]}</div><div class="score">${m[2]}–${m[3]}</div><div class="team right">${m[4]}</div></div>`).join("");
+document.getElementById("teamList").innerHTML=teams.map((t,i)=>`<div class="card"><div class="num">${String(i+1).padStart(2,'0')}</div><b>${t}</b></div>`).join("");
+document.getElementById("fixturesList").innerHTML=Object.entries(upcoming).map(([round,games])=>`<div class="panel"><h3>⚡ ${round}</h3>${games.map((g,i)=>`<div class="match"><span class="badge">${i+1}</span><div class="team">${g[0]}</div><div class="score">VS</div><div class="team right">${g[1]}</div></div>`).join('')}</div>`).join('');
+
+function showTab(id,btn){
+ document.querySelectorAll('section').forEach(s=>s.classList.remove('show'));
+ document.getElementById(id).classList.add('show');
+ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+ btn.classList.add('active');
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
